@@ -15,14 +15,14 @@ import challenge.pojos.User;
 public class DijkstraToFindHops {
 	List<Vertex> listOfVertexes;
 	
-	 List<Vertex> nodes;
+	List<Vertex> nodes;
     List<Edge> edges;
     Set<Vertex> settledNodes;
     Set<Vertex> unSettledNodes;
     Map<Vertex, Vertex> predecessors;
     Map<Vertex, Integer> distance;
     
-    public int getHops(Graph graph,List<Vertex> listOfVertexes,User user1, User user2) {
+    public int getHops(Graph graph,List<Vertex> listOfVertexes, User user1, User user2) {
 	     // create a copy of the array so that we can operate on this array
 	     nodes = new ArrayList<Vertex>(graph.getVertexes());
 	     edges = new ArrayList<Edge>(graph.getEdges());
@@ -63,9 +63,9 @@ public class DijkstraToFindHops {
        List<Vertex> adjacentNodes = getNeighbors(node);
        for (Vertex target : adjacentNodes) {
            if (getShortestDistance(target) > getShortestDistance(node)
-                   + getDistance(node, target)) {
+                   + 1) {
                distance.put(target, getShortestDistance(node)
-                       + getDistance(node, target));
+                       +1);
                predecessors.put(target, node);
                unSettledNodes.add(target);
            }
@@ -73,16 +73,6 @@ public class DijkstraToFindHops {
 
    }
 	
-	// helper function to get the distance of the node vertex and target vertex
-	private int getDistance(Vertex node, Vertex target) {
-       for (Edge edge : edges) {
-           if (edge.getSource().equals(node)
-                   && edge.getDestination().equals(target)) {
-               return edge.getWeight();
-           }
-       }
-       throw new RuntimeException("Should not happen");
-   }
 
 	// helper function to add neighbors of vertex node
    private List<Vertex> getNeighbors(Vertex node) {
@@ -100,13 +90,8 @@ public class DijkstraToFindHops {
    private Vertex getMinimum(Set<Vertex> vertexes) {
        Vertex minimum = null;
        for (Vertex vertex : vertexes) {
-           if (minimum == null) {
-               minimum = vertex;
-           } else {
-               if (getShortestDistance(vertex) < getShortestDistance(minimum)) {
-                   minimum = vertex;
-               }
-           }
+           minimum=vertex;
+           break;
        }
        return minimum;
    }
